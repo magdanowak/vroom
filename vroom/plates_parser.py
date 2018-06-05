@@ -3,7 +3,7 @@
 import re
 from collections import namedtuple
 import yaml
-
+import pkg_resources
 
 PlateDetails = namedtuple('PlateDetails', ['plate', 'unit', 'voivodeship'])
 
@@ -11,7 +11,7 @@ def load_area_codes():
     """
     Loads and returns area codes dictionary.
     """
-    with open("area_codes.yml", "rb") as file:
+    with pkg_resources.resource_stream(__name__, "area_codes.yml") as file:
         area_codes = yaml.safe_load(file)
     return area_codes
 
@@ -19,7 +19,7 @@ def load_regex_patterns():
     """
     Loads and returns regex patterns dictionary.
     """
-    with open("regex_patterns.yml", "rb") as file:
+    with pkg_resources.resource_stream(__name__, "regex_patterns.yml") as file:
         regex_patterns = yaml.safe_load(file)
     return regex_patterns
 
