@@ -30,12 +30,12 @@ class ParserTest(unittest.TestCase):
     def test_match_plate(self):
         """
         Test for match_plate method.
-        Method should return a dictionary if plate is found.
+        Method should return a PlateDetails namedtuple if plate is found.
         """
 
         parser = plates_parser.Parser()
-        plates_dict = {'plate': 'SY 12345', 'unit': 'Bytom', 'voivodeship': 'śląskie'}
-        self.assertEqual(parser.match_plate("SY 12345"), plates_dict)
+        plates_details = plates_parser.PlateDetails('SY 12345', 'Bytom', 'śląskie')
+        self.assertEqual(parser.match_plate("SY 12345"), plates_details)
         self.assertIsNone(parser.match_plate("HEJ 12345"))
 
 if __name__ == '__main__':

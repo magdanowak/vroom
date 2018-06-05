@@ -1,8 +1,11 @@
 """License plate parser for cars registered in Poland."""
 
 import re
+from collections import namedtuple
 import yaml
 
+
+PlateDetails = namedtuple('PlateDetails', ['plate', 'unit', 'voivodeship'])
 
 def load_area_codes():
     """
@@ -103,10 +106,10 @@ class Parser(object):
             result = set(re.findall(regex.regexp, text))
             if result:
                 if return_units:
-                    result_units = {self.build_plate_dict(res,
-                                                          regex.unit,
-                                                          regex.voivodeship
-                                                         ) for res in result}
+                    result_units = {PlateDetails(res,
+                                                 regex.unit,
+                                                 regex.voivodeship
+                                                ) for res in result}
                     found_plates = found_plates | result_units
                 else:
                     found_plates = found_plates | result
@@ -115,22 +118,10 @@ class Parser(object):
 
     def match_plate(self, text):
         """
-        Checks if text matches license plate pattern and returns dictionary
-        with administrative unit information.
+        Checks if text matches license plate pattern and returns
+        namedtuple PlateDetails with administrative unit information.
         """
 
         for regex in self.regexes:
             if re.match(regex.regexp, text):
-                return self.build_plate_dict(text, regex.unit, regex.voivodeship)
-
-    @staticmethod
-    def build_plate_dict(plate, unit, voivodeship):
-        """
-        Helper function for returning plate administrative info dictionary.
-        """
-        plate_dict = {
-            'plate': plate,
-            'unit': unit,
-            'voivodeship': voivodeship
-        }
-        return plate_dict
+                return PlateDetails(text, regex.unit, regex.voivodeship)
