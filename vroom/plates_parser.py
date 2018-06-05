@@ -1,23 +1,23 @@
 """License plate parser for cars registered in Poland."""
 
-import json
 import re
+import yaml
 
 
 def load_area_codes():
     """
     Loads and returns area codes dictionary.
     """
-    with open("area_codes.json", "r") as file:
-        area_dict = json.load(file)
-    return area_dict
+    with open("area_codes.yml", "rb") as file:
+        area_codes = yaml.safe_load(file)
+    return area_codes
 
 def load_regex_patterns():
     """
     Loads and returns regex patterns dictionary.
     """
-    with open("regex_patterns.json", "r") as file:
-        regex_patterns = json.load(file)
+    with open("regex_patterns.yml", "rb") as file:
+        regex_patterns = yaml.safe_load(file)
     return regex_patterns
 
 
@@ -134,4 +134,3 @@ class Parser(object):
             'voivodeship': voivodeship
         }
         return plate_dict
-
