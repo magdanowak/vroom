@@ -98,18 +98,18 @@ class Parser(object):
         Searches text for license plates, returns all matches.
         """
 
-        found_plates = []
+        found_plates = set()
         for regex in self.regexes:
-            result = re.findall(regex.regexp, text)
+            result = set(re.findall(regex.regexp, text))
             if result:
                 if return_units:
-                    result_units = [self.build_plate_dict(res,
+                    result_units = {self.build_plate_dict(res,
                                                           regex.unit,
                                                           regex.voivodeship
-                                                         ) for res in result]
-                    found_plates.extend(result_units)
+                                                         ) for res in result}
+                    found_plates = found_plates | result_units
                 else:
-                    found_plates.extend(result)
+                    found_plates = found_plates | result
         if found_plates:
             return found_plates
 
