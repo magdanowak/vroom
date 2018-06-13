@@ -1,1 +1,0 @@
-# Vroom - license plate parser for cars registered in Poland
